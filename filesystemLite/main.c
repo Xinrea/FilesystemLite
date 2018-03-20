@@ -7,9 +7,11 @@
 //
 
 #include <stdio.h>
+#include "fsLite.h"
 
 int main(int argc, const char * argv[]) {
     // insert code here...
+    fslite_init();
     printf("Hello, World!\n");
     return 0;
 }
