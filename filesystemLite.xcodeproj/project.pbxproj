@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EAF8E4082061399300235561 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EAF8E4072061399300235561 /* main.c */; };
+		EAF8E41120613B0E00235561 /* fsLite.c in Sources */ = {isa = PBXBuildFile; fileRef = EAF8E41020613B0E00235561 /* fsLite.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		EAF8E4042061399300235561 /* filesystemLite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = filesystemLite; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAF8E4072061399300235561 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		EAF8E40F20613B0E00235561 /* fsLite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fsLite.h; sourceTree = "<group>"; };
+		EAF8E41020613B0E00235561 /* fsLite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fsLite.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				EAF8E4072061399300235561 /* main.c */,
+				EAF8E40F20613B0E00235561 /* fsLite.h */,
+				EAF8E41020613B0E00235561 /* fsLite.c */,
 			);
 			path = filesystemLite;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF8E41120613B0E00235561 /* fsLite.c in Sources */,
 				EAF8E4082061399300235561 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
