@@ -15,12 +15,13 @@ int main(int argc, const char * argv[]) {
     sb.block_size = 4096;
     sb.free_blocks = 2048*8;
 //    fslite_init();
-    fslite_fill_super_block(&sb);
-    fslite_init_data_map();
-    fslite_init_inode_map();
-    fslite_init_inode_space();
-    char path[12] = "/good";
-    char data[32] = "goodtest";
+    char path[12] = "/good2";
+    char data[32] = "goodtest2";
     fslite_create_file(path, (void*)data, 32);
+    char  names[12][12];
+    int size = fslite_get_dir(0, names);
+    for(int i = 0; i < size; ++i){
+        printf("%s\n",names[i]);
+    }
     return 0;
 }

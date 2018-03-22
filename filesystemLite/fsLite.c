@@ -125,7 +125,9 @@ uint32_t find_free(unsigned char* m, unsigned int size){
 
 unsigned int valid(unsigned char* m, uint32_t id){
     uint32_t row = id/8;
-    return ((m[row]) << id) >> (7 - id);
+    unsigned int i = m[row];
+    unsigned int r = ((i) << (id + 24)) >> (7 - id + 24);
+    return r;
 }
 
 
@@ -155,7 +157,8 @@ int fslite_init_inode_space(void){
     lseek(fd, BASE, SEEK_SET); // write block
     struct fslite_dirblock block;
     strcpy(block.entry[0].file_name, "welcome");
-    set_map(block.entry_map, 1);
+    memset((void*)(block.entry_map), 0, 32); // map init
+    set_map(block.entry_map, 0);
     write(fd, (void*)&block, FSLITE_DEFAULT_BLOCK_SIZE);
     close(fd);
     return 0;
@@ -251,7 +254,7 @@ uint32_t fslite_create_file(char* path,void* data, uint32_t size){
             write(fd, (void*)&finode, FSLITE_DEFAULT_INODE_SIZE);
             close(fd);
 #ifdef DEBUG
-            printf("Log: Create file [%d] %s : %d bytes\n",inode_id,filename,size);
+            printf("Log: Create file [%d][%d] %s : %d bytes\n",inode_id,finode.dblock[0],filename,size);
 #endif
             return inode_id;
         }
@@ -291,8 +294,29 @@ uint32_t find_file_under_dir(uint32_t dir_inode, const char* filename){
     return 0;
 }
 
-uint32_t fslite_get_dir(uint32_t dir_id, char* names){
-    
+uint32_t fslite_get_dir(uint32_t dir_id, char names[12][12]){
+    int fd = open(DEVICE,O_RDONLY);
+    uint32_t counter = 0;
+    if(unlikely(fd == -1)){
+        printf("Log: Open file error\n");
+        return FS_ERR_OPDEV;
+    }
+    struct fslite_inode inode;
+    lseek(fd, P_INODE_BASE+dir_id*FSLITE_DEFAULT_INODE_SIZE, SEEK_SET);
+    read(fd, (void*)&inode, FSLITE_DEFAULT_INODE_SIZE);
+    if(inode.type == TYPE_FILE)return -1;
+    struct fslite_dirblock dirb;
+    lseek(fd, BASE+inode.dblock[0]*FSLITE_DEFAULT_BLOCK_SIZE, SEEK_SET);
+    read(fd, (void*)&dirb, FSLITE_DEFAULT_BLOCK_SIZE);
+    printf("Log: Block %d\n",inode.dblock[0]);
+    for(int i = 0; i < 254; ++i){
+        if(valid(dirb.entry_map, i)){
+            printf("[%d] %s\n",i,dirb.entry[i].file_name);
+            counter++;
+            strcpy(names[i], dirb.entry[i].file_name);
+        }
+    }
+    return counter;
 }
 
 

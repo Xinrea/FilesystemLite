@@ -33,4 +33,6 @@ uint32_t fslite_new_inode(void);
 uint32_t fslite_new_block(void);
 //uint32_t fslite_open(const char* path, uint32_t mode, uint32_t permission);
 uint32_t fslite_create_file(char* path,void* data, uint32_t size);
+uint32_t fslite_get_dir(uint32_t dir_id,char names[12][12]);
+uint32_t fslite_open(char* path,uint32_t mode);
 #endif /* fsLite_h */
